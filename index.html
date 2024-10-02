@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>mi colección</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<div id="agenda">
+  <fieldset>
+    <legend>Perfil de usuario</legend>
+    <p>Aquí va la fecha (con el formato visto en clase) según el idioma del perfil de usuario</p>
+    <div>
+      <label for="idioma">Perfil de usuario - Elige un idioma</label>
+      <select name="idioma" id="idioma" required>
+        <option disabled value="" selected>Selecciona tu idioma</option>
+        <option value="es">España</option>
+      </select>
+    </div>
+  </fieldset> 
+  <fieldset>
+    <legend>Mi colección de objetos</legend>
+    <table id="tabla-coleccion"><tr><th>Mi texto</th><th>Mi numero</th></tr>
+    </table>
+    <br>
+    <span>Id: </span>
+    <input type="text" id="id" name="id">
+    <button onclick="borrarObjeto()">Borrar</button>  
+  </fieldset>  
+  <form  id="mi-formulario">
+    <fieldset>
+      <legend>Mi colección de objetos - Añadir</legend>      
+      <div>
+          <label for="mi-texto">Mi texto:</label>
+          <input type="text" id="mi-texto" name="mi-texto" required minlength="2" maxlength="10"/>
+      </div>
+      <br>
+      <span>Mi número: </span>
+      <input type="number" id="mi-numero" min="1" max="100">   
+     
+      <div>
+        <label for="mi-coleccion">Seleccionar al menos una .... (completa texto)</label>
+        <select id="mi-coleccion" multiple size="5" required>
+          <option value="valor1">Valor1</option>
+          <option value="valor2">Valor2</option>
+          <option value="valor3">Valor3</option>
+        </select>
+      </div>
+      <input type="submit" value="Guardar datos">
+      </fieldset>
+      
+      
+  </form>
+  <script  src="./script.js"></script>
+
+</body>
+</html>
