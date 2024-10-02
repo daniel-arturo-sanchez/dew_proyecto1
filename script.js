@@ -7,8 +7,16 @@ const DOM = {
   miColeccion: document.getElementById("mi-coleccion"),
   tabla: document.getElementById("tabla-coleccion")
 };
+
+const COLLECTION_KEY = "paises";
+const Paises = [];
+
 (function(){
   // AQUI - Recupera la colección del localStorage y muestralo en la tabla
+  if ( localStorage.getItem(COLLECTION_KEY) !== null) {
+      localStorage.getItem(COLLECTION_KEY)
+  } 
+
   DOM.miFormulario.addEventListener("submit", guardarObjeto);
 })()
 
@@ -43,6 +51,3 @@ function mostrarObjetoEnTabla(miTexto, miNumero){
 
   
 }
-
-
-
