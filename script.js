@@ -9,7 +9,7 @@ const DOM = {
 };
 
 const COLLECTION_KEY = "paises";
-const Paises = [];
+const Paises = []; 
 
 (function(){
   // AQUI - Recupera la colección del localStorage y muestralo en la tabla
