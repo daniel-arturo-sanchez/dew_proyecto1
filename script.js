@@ -14,16 +14,28 @@ const Paises = [];
 (function(){
   // AQUI - Recupera la colección del localStorage y muestralo en la tabla
   if ( localStorage.getItem(COLLECTION_KEY) !== null) {
-      localStorage.getItem(COLLECTION_KEY)
-  } 
+      let misPaises = JSON.parse(localStorage.getItem(COLLECTION_KEY))
 
+      misPaises.forEach(pais => {
+        Paises.push(pais);
+      });
+  } 
+  Paises.forEach(pais => mostrarObjetoEnTabla(pais.nombre, pais.poblacion));
   DOM.miFormulario.addEventListener("submit", guardarObjeto);
 })()
 
 function guardarObjeto(e){
   // AQUI - Llamar a la función constructora del objeto
+  let paisNuevo = {
+    nombre : DOM.miTexto.value,
+    poblacion : parseInt(DOM.miNumero.value)
+    
+  }
   // AQUI - Hacer push en la colección
+  Paises.push(paisNuevo);
   // AQUI - Actualizar la colección en el localStorage
+  localStorage.setItem(COLLECTION_KEY, JSON.stringify(Paises));
+
   mostrarObjetoEnTabla(DOM.miTexto.value, DOM.miNumero.value);
   e.preventDefault(); // Para evitar el envío del formulario
 }
