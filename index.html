@@ -15,7 +15,25 @@
       <label for="idioma">Perfil de usuario - Elige un idioma</label>
       <select name="idioma" id="idioma" required>
         <option disabled value="" selected>Selecciona tu idioma</option>
-        <option value="es">España</option>
+        <option value="es">Español</option>
+        <option value="en">Inglés</option>
+        <option value="zh">Chino Mandarín</option>
+        <option value="gre">Griego</option>
+        <option value="it">Italiano</option>
+        <option value="ja">Japonés</option>
+        <option value="ko">Coreano</option>
+        <option value="uk">Ucraniano</option>
+        <option value="ru">Ruso</option>
+        <option value="pl">Polaco</option>
+        <option value="ar">Árabe</option>
+        <option value="ar-EG">Egipcio</option>
+        <option value="vi">Vietnamita</option>
+        <option value="th">Tailandés</option>
+        <option value="hi">Hindi</option>
+        <option value="fr">Francés</option>
+        <option value="de">Alemán</option>
+        <option value="nl">Neerlandés</option>
+        <option value="ro">Rumano</option>
       </select>
     </div>
   </fieldset> 
@@ -30,21 +48,21 @@
   </fieldset>  
   <form  id="mi-formulario">
     <fieldset>
-      <legend>Mi colección de objetos - Añadir</legend>      
+      <legend>Mi colección de Paises - Añadir</legend>      
       <div>
-          <label for="mi-texto">Mi texto:</label>
+          <label for="mi-texto">Nombre:</label>
           <input type="text" id="mi-texto" name="mi-texto" required minlength="2" maxlength="10"/>
       </div>
       <br>
-      <span>Mi número: </span>
+      <span>Id: </span>
       <input type="number" id="mi-numero" min="1" max="100">   
      
       <div>
-        <label for="mi-coleccion">Seleccionar al menos una .... (completa texto)</label>
+        <label for="mi-coleccion">Seleccionar al menos una... (completa texto)</label>
         <select id="mi-coleccion" multiple size="5" required>
-          <option value="valor1">Valor1</option>
-          <option value="valor2">Valor2</option>
-          <option value="valor3">Valor3</option>
+          <option value="dolar">Dólar</option>
+          <option value="euro">Euro</option>
+          <option value="otro">Otro</option>
         </select>
       </div>
       <input type="submit" value="Guardar datos">

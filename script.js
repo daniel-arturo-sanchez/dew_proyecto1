@@ -5,11 +5,31 @@ const DOM = {
   miTexto: document.getElementById("mi-texto"),
   miNumero: document.getElementById("mi-numero"),
   miColeccion: document.getElementById("mi-coleccion"),
-  tabla: document.getElementById("tabla-coleccion")
+  tabla: document.getElementById("tabla-coleccion"),
+  miHora: document.getElementsByTagName('p').item(0)
 };
-
+const DATE_OPTIONS = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "2-digit",
+};
 const COLLECTION_KEY = "paises";
 const Paises = []; 
+
+function formateaFecha(){
+  let fecha = new Date(Date.now());
+    if (idioma.value == '') {
+      fecha = fecha.toLocaleDateString('es', DATE_OPTIONS);
+    } else {
+      fecha = fecha.toLocaleDateString(idioma.value, DATE_OPTIONS);
+    }
+    return fecha
+};
+
+function actualizaFecha(){
+  DOM.miHora.innerText = formateaFecha();
+}
 
 (function(){
   // AQUI - Recupera la colección del localStorage y muestralo en la tabla
@@ -22,13 +42,14 @@ const Paises = [];
   } 
   Paises.forEach(pais => mostrarObjetoEnTabla(pais.nombre, pais.poblacion));
   DOM.miFormulario.addEventListener("submit", guardarObjeto);
+  DOM.idioma.addEventListener("change", actualizaFecha);
 })()
 
 function guardarObjeto(e){
   // AQUI - Llamar a la función constructora del objeto
   let paisNuevo = {
     nombre : DOM.miTexto.value,
-    poblacion : parseInt(DOM.miNumero.value)
+    //id:
     
   }
   // AQUI - Hacer push en la colección
@@ -62,4 +83,49 @@ function mostrarObjetoEnTabla(miTexto, miNumero){
   DOM.tabla.appendChild(tr);
 
   
+}
+
+function coleccionPorCodigo() {
+  const NUM_PAISES = 10;
+  let paises = [];
+  let i;
+  let paisesMuestra = coleccionHardcodeada();
+ 
+  for (i = 0; i < NUM_PAISES; i++) {
+      paises.push({});
+  }
+
+ for (let i = 0; i < 5; i++) {
+     paises[i].id = i+1;
+     paises[i].nombre = paisesMuestra[i].nombre;
+     paises[i].continente = paisesMuestra[i].continente;
+     paises[i].poblacion = paisesMuestra[i].poblacion;
+     paises[i].pib = paisesMuestra[i].pib;
+     paises[i].miColeccion = [];
+     paises[i].personalidades = [];
+     for (let k = 0; k < paisesMuestra[i].personalidades.length; k++) {
+         paises[i].personalidades.push(paisesMuestra[i].personalidades[k]);
+     }
+ }
+
+  for (let i = 5; i < NUM_PAISES; i++) {
+      paises[i]["id"] = i+1;
+     paises[i]["nombre"] = paisesMuestra[i]["nombre"];
+     paises[i]["continente"] = paisesMuestra[i]["continente"];
+     paises[i]["poblacion"] = paisesMuestra[i]["poblacion"];
+     paises[i]["pib"] = paisesMuestra[i]["pib"];
+      paises[i].miColeccion = [];
+     paises[i]["personalidades"] = [];
+     for (let k = 0; k < paisesMuestra[i]["personalidades"].length; k++) {
+         paises[i]["personalidades"].push(paisesMuestra[i]["personalidades"][k]);
+     }
+ }
+
+  paises.forEach( (pais) => {
+      pais.mostrar = function() {
+          console.log(`nombre: ${this.nombre} continente: ${this.continente}`)
+          }
+      });
+ 
+  return paises;
 }
