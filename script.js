@@ -41,108 +41,81 @@ function actualizaFecha(){
         Paises.push(pais);
       });
   } 
-  Paises.forEach(pais => mostrarObjetoEnTabla(pais.nombre, pais.id));
+  Paises.forEach(pais => mostrarObjetoEnTabla(pais.id, pais.nombre, pais.moneda));
   DOM.miFormulario.addEventListener("submit", guardarObjeto);
   DOM.idioma.addEventListener("change", actualizaFecha);
 })()
 
 function guardarObjeto(e){
   // AQUI - Llamar a la función constructora del objeto
-  let paisNuevo = {
-    nombre : DOM.miTexto.value,
-    id: DOM.miNumero.value,
-    moneda : []
+  if (IsValidCountry(DOM.miTexto.value) && IsValidID(DOM.miNumero.value)) {
+    let paisNuevo = new Pais(parseInt(DOM.miNumero.value), DOM.miTexto.value);
+    for (let i = 0; i < DOM.miColeccion.selectedOptions.length; i++) {
+      paisNuevo.moneda.push(DOM.miColeccion.selectedOptions[i].innerText);
+    }
+    // AQUI - Hacer push en la colección
+    Paises.push(paisNuevo);
+    // AQUI - Actualizar la colección en el localStorage
+    localStorage.setItem(COLLECTION_KEY, JSON.stringify(Paises));
+    location.reload();
+    Paises.forEach(pais => mostrarObjetoEnTabla(pais.id, pais.nombre, pais.moneda))
+    // mostrarObjetoEnTabla(DOM.miNumero.value, DOM.miTexto.value, DOM.miColeccion);
   }
-
-  for (let i = 0; i < DOM.miColeccion.selectedOptions.length; i++) {
-    paisNuevo.moneda.push(DOM.miColeccion.selectedOptions[i].value);
-  }
-
-  // AQUI - Hacer push en la colección
-  Paises.push(paisNuevo);
-  // AQUI - Actualizar la colección en el localStorage
-  localStorage.setItem(COLLECTION_KEY, JSON.stringify(Paises));
-
-  mostrarObjetoEnTabla(DOM.miTexto.value, DOM.miNumero.value);
   e.preventDefault(); // Para evitar el envío del formulario
 }
-function borrarObjeto(id){
+function borrarObjeto(){
   //AQUI - Borrar el objeto de la colección
   let position = Paises.findIndex(pais => pais.id == DOM.miId.value);
   if (position > -1) {
     Paises.splice(position, 1);
   } else {
-    throw Error("No se encuentra un elemento con ese índice");
+    throw "No se encuentra un elemento con ese índice";
   }
   //AQUI - Actualizar la colección en el localStorage
   localStorage.setItem(COLLECTION_KEY, JSON.stringify(Paises));
   location.reload();
   //AQUI - Redibujar la tabla HTML
   Paises.forEach( pais => {
-      mostrarObjetoEnTabla(pais.nombre, pais.id);
+      mostrarObjetoEnTabla(pais.id, pais.nombre, pais.moneda);
     }
   );
 }
-function mostrarObjetoEnTabla(miTexto, miNumero){
+function mostrarObjetoEnTabla(id, nombre, moneda){
   let tr;
   let td;
 
   tr = document.createElement("tr");
   //
   td = document.createElement("td");
-  td.textContent=miTexto;
+  td.textContent=id;
   tr.appendChild(td);
   //
   td = document.createElement("td");
-  td.textContent=miNumero;
+  td.textContent=nombre;
   tr.appendChild(td);
   //
+  td = document.createElement("td");
+  td.textContent=moneda.join(", ");
+  tr.appendChild(td);
   DOM.tabla.appendChild(tr);
-
-  
 }
 
-// function coleccionPorCodigo() {
-//   const NUM_PAISES = 10;
-//   let paises = [];
-//   let i;
-//   let paisesMuestra = coleccionHardcodeada();
- 
-//   for (i = 0; i < NUM_PAISES; i++) {
-//       paises.push({});
-//   }
+function Pais(id, nombre) {
+  this.id = id;
+  this.nombre = nombre;
+  this.moneda = [];
+}
 
-//  for (let i = 0; i < 5; i++) {
-//      paises[i].id = i+1;
-//      paises[i].nombre = paisesMuestra[i].nombre;
-//      paises[i].continente = paisesMuestra[i].continente;
-//      paises[i].poblacion = paisesMuestra[i].poblacion;
-//      paises[i].pib = paisesMuestra[i].pib;
-//      paises[i].miColeccion = [];
-//      paises[i].personalidades = [];
-//      for (let k = 0; k < paisesMuestra[i].personalidades.length; k++) {
-//          paises[i].personalidades.push(paisesMuestra[i].personalidades[k]);
-//      }
-//  }
+function IsValidCountry(nombre) {
+  let result = Paises.findIndex(pais => pais.nombre == nombre);
+  if (result !== -1)
+    throw "País no válido";
+  return result === -1
+}
 
-//   for (let i = 5; i < NUM_PAISES; i++) {
-//       paises[i]["id"] = i+1;
-//      paises[i]["nombre"] = paisesMuestra[i]["nombre"];
-//      paises[i]["continente"] = paisesMuestra[i]["continente"];
-//      paises[i]["poblacion"] = paisesMuestra[i]["poblacion"];
-//      paises[i]["pib"] = paisesMuestra[i]["pib"];
-//       paises[i].miColeccion = [];
-//      paises[i]["personalidades"] = [];
-//      for (let k = 0; k < paisesMuestra[i]["personalidades"].length; k++) {
-//          paises[i]["personalidades"].push(paisesMuestra[i]["personalidades"][k]);
-//      }
-//  }
-
-//   paises.forEach( (pais) => {
-//       pais.mostrar = function() {
-//           console.log(`nombre: ${this.nombre} continente: ${this.continente}`)
-//           }
-//       });
- 
-//   return paises;
-// }
+function IsValidID(id) {
+  let result = Paises.findIndex(pais => pais.id == parseInt(id))
+   if (result !== -1)
+    throw "Id no válido";
+  return result === -1
+}
